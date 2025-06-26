@@ -56,7 +56,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
 import org.telegram.ui.Components.Paint.ShapeDetector;
-import org.telegram.ui.ProfileActivity;
+import org.telegram.ui.ProfileActivityV2.AvatarImageView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     private FrameLayout[] titles = new FrameLayout[2];
     private SimpleTextView[] nameTextView = new SimpleTextView[2];
     private AnimatedTextView[] subtitleTextView = new AnimatedTextView[2];
-    ProfileActivity.AvatarImageView avatarImageView;
+    AvatarImageView avatarImageView;
     private BackDrawable backDrawable;
     private AnimatedTextView selectedTextView;
     private ActionBarMenuItem optionsItem;
@@ -373,7 +373,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             }
         }
 
-        avatarImageView = new ProfileActivity.AvatarImageView(context) {
+        avatarImageView = new AvatarImageView(context) {
             @Override
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
                 super.onInitializeAccessibilityNodeInfo(info);

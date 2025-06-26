@@ -64,7 +64,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PaymentFormActivity;
-import org.telegram.ui.ProfileActivity;
+import org.telegram.ui.ProfileActivityV2.ProfileActivityV2;
 import org.telegram.ui.bots.BotWebViewSheet;
 
 import java.util.ArrayList;
@@ -2487,7 +2487,7 @@ public class StarsController {
 //                        final Bundle args = new Bundle();
 //                        args.putLong("chat_id", -dialogId);
 //                        args.putBoolean("open_gifts", true);
-//                        final ProfileActivity profileActivity = new ProfileActivity(args);
+//                        final ProfileActivity profileActivity = new ProfileActivityV2(args);
 //                        profileActivity.whenFullyVisible(() -> {
 //                            AndroidUtilities.runOnUIThread(() -> {
 //                                if (profileActivity.sharedMediaLayout != null) {
@@ -2642,18 +2642,18 @@ public class StarsController {
                         chatFull.flags2 |= 262144;
                         MessagesController.getInstance(currentAccount).putChatFull(chatFull);
                     }
-                    if (fragment instanceof ProfileActivity && ((ProfileActivity) fragment).getDialogId() == dialogId) {
-                        if (((ProfileActivity) fragment).sharedMediaLayout != null) {
-                            ((ProfileActivity) fragment).sharedMediaLayout.updateTabs(true);
-                            ((ProfileActivity) fragment).sharedMediaLayout.scrollToPage(SharedMediaLayout.TAB_GIFTS);
-                            ((ProfileActivity) fragment).scrollToSharedMedia();
+                    if (fragment instanceof ProfileActivityV2 && ((ProfileActivityV2) fragment).getDialogId() == dialogId) {
+                        if (((ProfileActivityV2) fragment).sharedMediaLayout != null) {
+                            ((ProfileActivityV2) fragment).sharedMediaLayout.updateTabs(true);
+                            ((ProfileActivityV2) fragment).sharedMediaLayout.scrollToPage(SharedMediaLayout.TAB_GIFTS);
+                            ((ProfileActivityV2) fragment).scrollToSharedMedia();
                         }
                         BulletinFactory.of(fragment).createEmojiBulletin(gift.sticker, getString(R.string.StarsGiftCompleted), AndroidUtilities.replaceTags(formatPluralString("StarsGiftCompletedChannelText", (int) stars, name))).show(false);
                     } else {
                         final Bundle args = new Bundle();
                         args.putLong("chat_id", -dialogId);
                         args.putBoolean("open_gifts", true);
-                        final ProfileActivity profileActivity = new ProfileActivity(args);
+                        final ProfileActivityV2 profileActivity = new ProfileActivityV2(args);
                         profileActivity.whenFullyVisible(() -> {
                             AndroidUtilities.runOnUIThread(() -> {
                                 if (profileActivity.sharedMediaLayout != null) {

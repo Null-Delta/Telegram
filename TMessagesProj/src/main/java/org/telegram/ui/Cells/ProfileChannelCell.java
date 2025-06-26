@@ -47,22 +47,23 @@ public class ProfileChannelCell extends FrameLayout {
     private final TextView headerView;
     private final AnimatedTextView subscribersView;
 
+    private final boolean withHeader;
+
     public final DialogCell dialogCell;
 
-    public ProfileChannelCell(BaseFragment fragment) {
+    public ProfileChannelCell(BaseFragment fragment, boolean withHeader) {
         super(fragment.getContext());
         final Context context = fragment.getContext();
         this.resourcesProvider = fragment.getResourceProvider();
+        this.withHeader = withHeader;
 
         LinearLayout headerLayout = new LinearLayout(context);
         headerLayout.setOrientation(LinearLayout.HORIZONTAL);
-        addView(headerLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.FILL_HORIZONTAL | Gravity.TOP, 22, 16.6f, 22, 0));
 
         headerView = new TextView(context);
         headerView.setTypeface(AndroidUtilities.bold());
         headerView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         headerView.setText(LocaleController.getString(R.string.ProfileChannel));
-        headerLayout.addView(headerView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
 
         subscribersView = new ClickableAnimatedTextView(context);
         subscribersView.getDrawable().setHacks(true, true, true);
@@ -71,7 +72,12 @@ public class ProfileChannelCell extends FrameLayout {
         subscribersView.setTextSize(dp(11));
         subscribersView.setPadding(dp(4.33f), 0, dp(4.33f), 0);
         subscribersView.setGravity(Gravity.LEFT);
-        headerLayout.addView(subscribersView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 17, Gravity.LEFT | Gravity.TOP, 4, 2, 4, 0));
+
+        if (withHeader) {
+            addView(headerLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.FILL_HORIZONTAL | Gravity.TOP, 22, 16.6f, 22, 0));
+            headerLayout.addView(headerView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
+            headerLayout.addView(subscribersView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 17, Gravity.LEFT | Gravity.TOP, 4, 2, 4, 0));
+        }
 
         dialogCell = new DialogCell(null, context, false, true, UserConfig.selectedAccount, resourcesProvider);
         dialogCell.setBackgroundColor(0);
@@ -123,7 +129,8 @@ public class ProfileChannelCell extends FrameLayout {
                 fragment.getOrCreateStoryViewer().open(context, null, peerIds, 0, null, null, StoriesListPlaceProvider.of(ProfileChannelCell.this), false);
             }
         });
-        dialogCell.avatarStart = 15;
+
+        dialogCell.avatarStart = withHeader ? 15 : 17;
         dialogCell.messagePaddingStart = 83;
         addView(dialogCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.FILL_HORIZONTAL | Gravity.BOTTOM));
 
@@ -226,7 +233,14 @@ public class ProfileChannelCell extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(dp(115.66f), MeasureSpec.EXACTLY));
+        super.onMeasure(MeasureSpec.makeMeasureSpec(
+                MeasureSpec.getSize(widthMeasureSpec),
+                MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(
+                        dp(withHeader ? 115.66f : 83f),
+                        MeasureSpec.EXACTLY
+                )
+        );
     }
 
 
